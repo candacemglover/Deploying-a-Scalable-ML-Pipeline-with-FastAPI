@@ -1,4 +1,4 @@
-annotated-types @ file:///home/conda/feedstock_root/build_artifacts/annotated-types_1733247046149/work
+annotated-types
 anyio @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_anyio_1764375386/work
 backports.zstd @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_backports.zstd_1765057663/work
 Brotli @ file:///home/conda/feedstock_root/build_artifacts/brotli-split_1764016952863/work
