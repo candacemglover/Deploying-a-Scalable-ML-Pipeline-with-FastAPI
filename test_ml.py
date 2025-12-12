@@ -1,28 +1,60 @@
 import pytest
-# TODO: add necessary import
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
 
-# TODO: implement the first test. Change the function name and input as needed
-def test_one():
-    """
-    # add description for the first test
-    """
-    # Your code here
-    pass
+#Importing functions
+from ml.data import process_data
+from ml.model import train_model, compute_model_metrics
 
 
-# TODO: implement the second test. Change the function name and input as needed
-def test_two():
+def test_process_data_shapes():
     """
-    # add description for the second test
+    Test that process_data returns the correct shapes and types
     """
-    # Your code here
-    pass
+    data = pd.DataFrame({
+        "age": [25, 40],
+        "workclass": ["Private", "Self-emp"],
+        "education": ["Bachelors", "HS-grad"],
+        "salary": [">50K", "<=50K"]
+    })
+
+    cat_features = ["workclass", "education"]
+
+    X, y, encoder, lb = process_data(
+        data,
+        categorical_features=cat_features,
+        label="salary",
+        training=True
+    )
+
+    # Check the shape and type
+    assert X.shape[0] == 2
+    assert len(y) == 2
+    assert isinstance(X, (pd.DataFrame, np.ndarray))
+    assert isinstance(y, (pd.Series, np.ndarray))
 
 
-# TODO: implement the third test. Change the function name and input as needed
-def test_three():
+def test_train_model_returns_estimator():
     """
-    # add description for the third test
+    Test that train_model returns a RandomForestClassifier
     """
-    # Your code here
-    pass
+    X = np.random.rand(10, 5)
+    y = np.array([0, 1] * 5)
+
+    model = train_model(X, y)
+    assert isinstance(model, RandomForestClassifier)
+
+
+def test_compute_metrics_output():
+    """
+    Test that compute_model_metrics returns floats
+    """
+    y = np.array([1, 0, 1, 0])
+    preds = np.array([1, 0, 0, 0])
+
+    precision, recall, fbeta = compute_model_metrics(y, preds)
+
+    assert isinstance(precision, float)
+    assert isinstance(recall, float)
+    assert isinstance(fbeta, float)
