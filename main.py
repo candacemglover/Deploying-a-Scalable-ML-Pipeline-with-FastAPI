@@ -1,5 +1,3 @@
-import os
-
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
@@ -8,6 +6,8 @@ from ml.data import apply_label, process_data
 from ml.model import inference, load_model
 
 # DO NOT MODIFY
+
+
 class Data(BaseModel):
     age: int = Field(..., example=37)
     workclass: str = Field(..., example="Private")
@@ -26,19 +26,23 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-path = "model/encoder.pkl" 
+
+path = "model/encoder.pkl"
 encoder = load_model(path)
 
-path = "model/model.pkl" 
+path = "model/model.pkl"
 model = load_model(path)
+
 
 # TODO: create a RESTful API using FastAPI
 app = FastAPI()
 
 # TODO: create a GET on the root giving a welcome message
+
+
 @app.get("/")
 async def get_root():
-    """ Say hello!"""
+    """Say hello!"""
     return {"message": "Hello from the API!"}
 
 
@@ -68,7 +72,7 @@ async def post_inference(data: Data):
         categorical_features=cat_features,
         label=None,
         training=False,
-        encoder=encoder
+        encoder=encoder,
     )
     _inference = inference(model, data_processed)
     return {"result": apply_label(_inference)}
